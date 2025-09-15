@@ -54,7 +54,6 @@ const getProductList = asyncHandler(async (req, res) => {
 
 const getProductById = asyncHandler(async (req, res) => {
   const { id } = req.params
-  console.log('🚀 ~ id:', id)
   const result = await Products.findByPk(id, {
     include: [
       {

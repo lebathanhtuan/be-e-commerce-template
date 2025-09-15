@@ -10,6 +10,8 @@ const { Server } = require('socket.io')
 const authRoutes = require('./routes/auth.route')
 const productRoutes = require('./routes/product.route')
 const categoryRoutes = require('./routes/category.route')
+const cartRoutes = require('./routes/cart.route')
+const addressRoutes = require('./routes/address.route')
 
 const errorHandler = require('./middlewares/error.middleware.js')
 
@@ -72,6 +74,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/categories', categoryRoutes)
+app.use('/api/carts', cartRoutes)
+app.use('/api/addresses', addressRoutes)
 
 app.use(errorHandler)
 
