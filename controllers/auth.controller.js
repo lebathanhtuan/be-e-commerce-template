@@ -32,11 +32,13 @@ const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
   const user = await Users.findOne({ where: { email: email } })
+  console.log('🚀 ~ user:', user)
   if (!user) {
     throw new BadRequestError('Email hoặc mật khẩu không đúng!')
   }
 
   const isMatch = await bcrypt.compare(password, user.password)
+  console.log('🚀 ~ isMatch:', isMatch)
   if (!isMatch) {
     throw new BadRequestError('Email hoặc mật khẩu không đúng!')
   }

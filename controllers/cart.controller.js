@@ -10,10 +10,7 @@ const getCartItems = asyncHandler(async (req, res) => {
     include: [{ model: Products, as: 'product' }],
   })
 
-  res.status(200).json({
-    message: 'Lấy danh sách giỏ hàng thành công.',
-    data: cartItems,
-  })
+  res.status(200).json(cartItems)
 })
 
 const addToCart = asyncHandler(async (req, res) => {
@@ -27,12 +24,15 @@ const addToCart = asyncHandler(async (req, res) => {
 
   let cartItem = await Carts.findOne({
     where: { userId, productId },
+    include: [{ model: Products, as: 'product' }],
   })
 
   if (cartItem) {
+    // Update
     cartItem.quantity += quantity
     await cartItem.save()
   } else {
+    // Create
     cartItem = await Carts.create({
       userId,
       productId,
@@ -40,10 +40,7 @@ const addToCart = asyncHandler(async (req, res) => {
     })
   }
 
-  res.status(200).json({
-    message: 'Đã thêm sản phẩm vào giỏ hàng thành công.',
-    data: cartItem,
-  })
+  res.status(200).json(cartItem)
 })
 
 const updateCartItem = asyncHandler(async (req, res) => {
@@ -57,6 +54,7 @@ const updateCartItem = asyncHandler(async (req, res) => {
 
   const cartItem = await Carts.findOne({
     where: { id, userId },
+    include: [{ model: Products, as: 'product' }],
   })
   if (!cartItem) {
     throw new NotFoundError('Không tìm thấy sản phẩm trong giỏ hàng')
@@ -65,10 +63,7 @@ const updateCartItem = asyncHandler(async (req, res) => {
   cartItem.quantity = quantity
   await cartItem.save()
 
-  res.status(200).json({
-    message: 'Cập nhật giỏ hàng thành công.',
-    data: cartItem,
-  })
+  res.status(200).json(cartItem)
 })
 
 const deleteCartItem = asyncHandler(async (req, res) => {
@@ -77,6 +72,7 @@ const deleteCartItem = asyncHandler(async (req, res) => {
 
   const cartItem = await Carts.findOne({
     where: { id, userId },
+    include: [{ model: Products, as: 'product' }],
   })
   if (!cartItem) {
     throw new NotFoundError('Không tìm thấy sản phẩm trong giỏ hàng')
